@@ -16,11 +16,14 @@ class PostController extends Controller
 
     public function create()
     {
+        if (!auth()->user()?->is_admin) abort(403);
         return view('posts.create');
     }
 
     public function store(Request $request)
     {
+        if (!auth()->user()?->is_admin) abort(403);
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'body'  => 'required',
@@ -43,11 +46,14 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        if (!auth()->user()?->is_admin) abort(403);
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
+        if (!auth()->user()?->is_admin) abort(403);
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'body'  => 'required',
@@ -64,6 +70,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        if (!auth()->user()?->is_admin) abort(403);
         $post->delete();
         return redirect()->route('posts.index');
     }

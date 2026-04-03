@@ -8,12 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsAdmin
 {
-    public function handle(Request $request, Closure $next): Response
-    {
-        if (!auth()->check() || !auth()->user()->is_admin) {
-            abort(403);
-        }
+        public function handle(Request $request, Closure $next): Response
+        {
+            dd(auth()->check(), auth()->user()?->is_admin);
 
-        return $next($request);
-    }
+            if (!auth()->check() || !auth()->user()->is_admin) {
+                return redirect()->route('posts.index');
+            }
+
+            return $next($request);
+        }
 }

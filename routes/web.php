@@ -8,11 +8,7 @@ Route::get('/', function () {
     return redirect()->route('posts.index');
 });
 
-Route::resource('posts', PostController::class)->only(['index', 'show']);
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('posts', PostController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-});
+Route::resource('posts', PostController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
