@@ -1,37 +1,44 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $post->title }}
-        </h2>
-    </x-slot>
+    <main class="py-16">
+        <div class="max-w-2xl mx-auto px-6">
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow rounded-lg p-8">
-                <p class="text-gray-500 text-sm mb-6">{{ $post->created_at->diffForHumans() }}</p>
-                <div class="text-gray-800 leading-relaxed">{{ $post->body }}</div>
+            <a href="{{ route('posts.index') }}"
+               class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-900 transition-colors duration-200 mb-10">
+                ← Tilbage
+            </a>
+
+            <article>
+                <header class="mb-8">
+                    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">
+                        {{ $post->title }}
+                    </h1>
+                    <p class="mt-2 text-sm text-gray-400">{{ $post->created_at->diffForHumans() }}</p>
+                </header>
+
+                <section class="prose prose-sm prose-gray max-w-none text-gray-700 leading-relaxed">
+                    {{ $post->body }}
+                </section>
 
                 @auth
-                    <div class="mt-8 flex gap-4">
-                        <a href="{{ route('posts.edit', $post) }}"
-                           class="bg-black text-white px-4 py-2 rounded-lg text-sm">
-                            Rediger
-                        </a>
-                        <form action="{{ route('posts.destroy', $post) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                    class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
-                                Slet
-                            </button>
-                        </form>
-                    </div>
+                    @if(auth()->user()->is_admin)
+                        <footer class="mt-12 flex gap-3">
+                            <a href="{{ route('posts.edit', $post) }}"
+                               class="text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 px-4 py-2 rounded-full transition-all duration-200">
+                                Rediger
+                            </a>
+                            <form action="{{ route('posts.destroy', $post) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="text-sm font-medium text-red-500 hover:text-white hover:bg-red-500 border border-red-200 px-4 py-2 rounded-full transition-all duration-200">
+                                    Slet
+                                </button>
+                            </form>
+                        </footer>
+                    @endif
                 @endauth
-            </div>
+            </article>
 
-            <a href="{{ route('posts.index') }}" class="mt-6 inline-block text-sm text-gray-500 hover:underline">
-                ← Tilbage til oversigt
-            </a>
         </div>
-    </div>
+    </main>
 </x-app-layout>

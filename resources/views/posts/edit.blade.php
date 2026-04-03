@@ -1,47 +1,50 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Rediger indlæg
-        </h2>
-    </x-slot>
+    <main class="py-16">
+        <div class="max-w-2xl mx-auto px-6">
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow rounded-lg p-8">
-                <form action="{{ route('posts.update', $post) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+            <a href="{{ route('posts.show', $post) }}"
+               class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-900 transition-colors duration-200 mb-10">
+                ← Tilbage
+            </a>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Titel</label>
-                        <input type="text" name="title" value="{{ old('title', $post->title) }}"
-                               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black">
-                        @error('title')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+            <header class="mb-8">
+                <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Rediger indlæg</h1>
+            </header>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Indhold</label>
-                        <textarea name="body" rows="10"
-                                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black">{{ old('body', $post->body) }}</textarea>
-                        @error('body')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+            <form action="{{ route('posts.update', $post) }}" method="POST" class="space-y-6">
+                @csrf
+                @method('PUT')
 
-                    <div class="flex gap-4">
-                        <button type="submit"
-                                class="bg-black text-white px-6 py-2 rounded-lg text-sm">
-                            Gem ændringer
-                        </button>
-                        <a href="{{ route('posts.show', $post) }}"
-                           class="text-gray-500 px-6 py-2 text-sm hover:underline">
-                            Annuller
-                        </a>
-                    </div>
-                </form>
-            </div>
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Titel</label>
+                    <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}"
+                           class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200">
+                    @error('title')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="body" class="block text-sm font-medium text-gray-700 mb-2">Indhold</label>
+                    <textarea name="body" id="body" rows="12"
+                              class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200 resize-none">{{ old('body', $post->body) }}</textarea>
+                    @error('body')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit"
+                            class="flex-1 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 py-3 rounded-xl transition-all duration-200">
+                        Gem ændringer
+                    </button>
+                    <a href="{{ route('posts.show', $post) }}"
+                       class="flex-1 text-center text-sm font-medium text-gray-500 hover:text-gray-900 border border-gray-200 py-3 rounded-xl transition-all duration-200">
+                        Annuller
+                    </a>
+                </div>
+
+            </form>
         </div>
-    </div>
+    </main>
 </x-app-layout>
